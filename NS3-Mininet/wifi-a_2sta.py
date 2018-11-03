@@ -15,7 +15,6 @@ import argparse
 
 def Main():
     parser = argparse.ArgumentParser(description='802.11a mininet-ns3 scenario')
-    parser.add_argument('-g', '--GI', help='Setting Guard Interval', action='store_true', default=False)
     parser.add_argument('-b', '--BANDWIDTH', help='Set bandwidth', default=20, type = int)
     parser.add_argument('-or', '--OFDMRate', help='Setting OFDMRate', default=9, type = int)
     parser.add_argument('-u', '--UDP', help='Turning off UDP protocol', action='store_false', default=True)
@@ -24,23 +23,22 @@ def Main():
     
     args = parser.parse_args()
 
-    Start(args.GI, args.OFDMRate, args.BANDWIDTH, args.UDP, args.TP, args.PCAP)
+    Start(args.OFDMRate, args.BANDWIDTH, args.UDP, args.TP, args.PCAP)
 
-def Start(GI=False, OFDM_R=9, Bandwidth=20, UDP=True, TP=20, PCAP=False):
+def Start(OFDM_R=9, Bandwidth=20, UDP=True, TP=9, PCAP=False):
     setLogLevel( 'info' )
     #info( '*** ns-3 network demo\n' )
     net = Mininet()
 
     #info( '*** Creating Network\n' )
     h0 = net.addHost( 'h0' )
-    #h1 = net.addHost( 'h1' )
+    h1 = net.addHost( 'h1' )
     h2 = net.addHost( 'h2' )
 
     wifi = WIFISegment()
 
     #CONFIGURATION
     udp = UDP
-    gi = GI #0,1
     bandwidth = Bandwidth #20
     ofdm_r = "OfdmRate"+str(OFDM_R)+"Mbps"
     OfdmRate = ofdm_r #9,24,48
@@ -53,7 +51,7 @@ def Start(GI=False, OFDM_R=9, Bandwidth=20, UDP=True, TP=20, PCAP=False):
 
     info( '*** Creating Network\n' )
     h0 = net.addHost( 'h0' )
-    #h1 = net.addHost( 'h1' )
+    h1 = net.addHost( 'h1' )
     h2 = net.addHost( 'h2' )
 
     wifi = WIFISegment()
@@ -66,7 +64,7 @@ def Start(GI=False, OFDM_R=9, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     Sssid = "wifi-80211a"
 
     wifi.addSta( h0, ssid=Sssid )
-
+    wifi.addSta( h1, ssid=Sssid )
     wifi.addAp( h2, ssid=Sssid  )
 
     # set channel bandwidth
@@ -74,21 +72,29 @@ def Start(GI=False, OFDM_R=9, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     
     if PCAP == True:
         wifi.phyhelper.EnablePcap( "80211a_sta1.pcap", h0.nsNode.GetDevice( 0 ), True, True );
-        #wifi.phyhelper.EnablePcap( "80211a_sta2.pcap", h1.nsNode.GetDevice( 0 ), True, True );
+        wifi.phyhelper.EnablePcap( "80211a_sta2.pcap", h1.nsNode.GetDevice( 0 ), True, True );
         wifi.phyhelper.EnablePcap( "80211a_ap.pcap", h2.nsNode.GetDevice( 0 ), True, True );
 
     #info( '*** Configuring hosts\n' )
     h0.setIP('192.168.123.1/24')
-    #h1.setIP('192.168.123.2/24')
+    h1.setIP('192.168.123.2/24')
     h2.setIP('192.168.123.3/24')
 
     mininet.ns3.start()
 
+
     #info( '\n *** Testing network connectivity\n' )
     net.pingFull([h0,h2])
-    info( '*** Testing bandwidth between h0 and h2 while h1 is not transmitting\n' )
+    net.pingFull([h1,h2])
+    net.pingFull([h0,h1])
+    info('*** Starting UDP iperf server on AP(h2)\n')
     h2.sendCmd( "iperf -s -i 1 -u" )
+    info( '*** Testing bandwidth between h0 and h2 while h1 is not transmitting\n' )
     val = "iperf -c 192.168.123.3 -u -b "+str(TP)+"M"
+    h0.cmdPrint(val)
+    info( '*** Testing bandwidth between h0 and h2 while h1 is also transmitting\n' )
+    val = "iperf -c 192.168.123.3 -u -b "+str(TP)+"M"
+    h1.sendCmd(val)
     h0.cmdPrint(val)
     
     CLI(net)
