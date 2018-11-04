@@ -69,7 +69,10 @@ def main(argv):
 
         positionAlloc.Add (ns.core.Vector3D (0.0, 0.0, 0.0))
         positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
-        positionAlloc.Add (ns.core.Vector3D (distance*2, 0.0, 0.0))
+        positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
+        positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
+        positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
+        positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
         
         mobility.SetPositionAllocator (positionAlloc)
 
@@ -135,6 +138,7 @@ def main(argv):
             clientApp = myClient.Install (wifiStaNode)
             clientApp.Start (ns.core.Seconds (1.0))
             clientApp.Stop (ns.core.Seconds (simulationTime + 1))
+
 
         ns.internet.Ipv4GlobalRoutingHelper.PopulateRoutingTables ()
 

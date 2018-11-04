@@ -93,7 +93,7 @@ def main(argv):
             port = 50000
             apLocalAddress = ns.network.Address (ns.network.InetSocketAddress (ns.network.Ipv4Address.GetAny (), port))
             packetSinkHelper = ns.applications.PacketSinkHelper ("ns3::TcpSocketFactory", apLocalAddress)
-            sinkApp = packetSinkHelper.Install (wifiStaNode.Get (0))
+            sinkApp = packetSinkHelper.Install (wifiApNode)
 
             sinkApp.Start (ns.core.Seconds (0.0))
             sinkApp.Stop (ns.core.Seconds (simulationTime + 1))
@@ -102,14 +102,17 @@ def main(argv):
             onoff.SetAttribute ("OnTime",  ns.core.StringValue ("ns3::ConstantRandomVariable[Constant=1]"))
             onoff.SetAttribute ("OffTime", ns.core.StringValue ("ns3::ConstantRandomVariable[Constant=0]"))
             onoff.SetAttribute ("PacketSize", ns.core.UintegerValue (payloadSize))
-            onoff.SetAttribute ("DataRate", ns.network.DataRateValue (ns.network.DataRate (data_rate))) # bit/s
+            temp = int(expected_val[count]*1000000)
+            onoff.SetAttribute ("DataRate", ns.network.DataRateValue (ns.network.DataRate (temp))) # bit/s
             apps = ns.network.ApplicationContainer ()
 
-            remoteAddress = ns.network.AddressValue (ns.network.InetSocketAddress (staNodeInterface.GetAddress (0), port))
+            remoteAddress = ns.network.AddressValue (ns.network.InetSocketAddress (apNodeInterface.GetAddress (0), port))
             onoff.SetAttribute ("Remote", remoteAddress)
-            apps.Add (onoff.Install (wifiApNode.Get (0)))
+            
+            apps.Add (onoff.Install (wifiStaNode))
             apps.Start (ns.core.Seconds (1.0))
             apps.Stop (ns.core.Seconds (simulationTime + 1))
+
         elif udp == True:
             # UDP flow
             myServer=ns.applications.UdpServerHelper (9)
