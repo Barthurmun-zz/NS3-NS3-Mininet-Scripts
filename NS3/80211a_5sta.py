@@ -14,13 +14,12 @@ def main(argv):
     
     simulationTime = float(cmd.simulationTime)
     distance = float(cmd.distance)
-
+    Sta_Nodes = 5
     #Configuration arguments
     udp = True #If false, TCP will be used by default
     bandwidth = 20
     ofdm =["OfdmRate9Mbps", "OfdmRate24Mbps", "OfdmRate48Mbps"]
-    expected_val = [9,20,35]
-    expected_val2 = [11,24,48]
+    expected_val = [9/2.5,20/4,35/5]
     print "OFDM Rate: \t Troughput:\t\t  Delay:\t Lost packets:\tTransmited Packets:"
     for count, a in enumerate(ofdm):
       
@@ -38,7 +37,7 @@ def main(argv):
             payloadSize = 1472
 
         wifiStaNode = ns.network.NodeContainer ()
-        wifiStaNode.Create (5)
+        wifiStaNode.Create (Sta_Nodes)
         wifiApNode = ns.network.NodeContainer ()
         wifiApNode.Create (1)
         
@@ -68,9 +67,6 @@ def main(argv):
         positionAlloc = ns.mobility.ListPositionAllocator ()
 
         positionAlloc.Add (ns.core.Vector3D (0.0, 0.0, 0.0))
-        positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
-        positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
-        positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
         positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
         positionAlloc.Add (ns.core.Vector3D (distance, 0.0, 0.0))
         
@@ -139,19 +135,18 @@ def main(argv):
             clientApp.Start (ns.core.Seconds (1.0))
             clientApp.Stop (ns.core.Seconds (simulationTime + 1))
 
-
         ns.internet.Ipv4GlobalRoutingHelper.PopulateRoutingTables ()
 
         flowmonitor = ns.flow_monitor.FlowMonitorHelper ()
         monitor = flowmonitor.InstallAll ()
 
-        monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (1)))
+        monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (5)))
         monitor.SetAttribute ("DelayBinWidth", ns.core.DoubleValue (0.001))
         monitor.SetAttribute ("JitterBinWidth", ns.core.DoubleValue (0.001))
         monitor.SetAttribute ("PacketSizeBinWidth", ns.core.DoubleValue (20))
         
         
-        ns.core.Simulator.Stop (ns.core.Seconds (simulationTime + 1))
+        ns.core.Simulator.Stop (ns.core.Seconds (simulationTime))
         ns.core.Simulator.Run ()
         ns.core.Simulator.Destroy ()
 

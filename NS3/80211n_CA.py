@@ -165,12 +165,12 @@ def main(argv):
                 flowmonitor = ns.flow_monitor.FlowMonitorHelper ()
                 monitor = flowmonitor.InstallAll ()
                 
-                monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (1)))
+                monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (5)))
                 monitor.SetAttribute ("DelayBinWidth", ns.core.DoubleValue (0.001))
                 monitor.SetAttribute ("JitterBinWidth", ns.core.DoubleValue (0.001))
                 monitor.SetAttribute ("PacketSizeBinWidth", ns.core.DoubleValue (20))
                 
-                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime + 1))
+                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime))
                 ns.core.Simulator.Run ()
                 ns.core.Simulator.Destroy ()
 
