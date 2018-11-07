@@ -1,0 +1,4 @@
+OFDM Rate: 	 Troughput:		  Delay:	 Lost packets:	Transmited Packets:
+OfdmRate9Mbps 	7.24224 Mbit/s	+2225176368.0ns 		124 		  2544
+OfdmRate24Mbps 	16.6948352 Mbit/s	+1217499144.0ns 		323 		  5094
+OfdmRate48Mbps 	27.243776 Mbit/s	+832973447.0ns 		531 		  7898

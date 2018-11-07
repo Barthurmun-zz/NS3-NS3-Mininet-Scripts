@@ -24,7 +24,7 @@ def main(argv):
     gi=[False,True]
     amsduVOBE=7935 #Maximum amound by standard definition
     amsduVIBK=7935 #Maximum amound by standard definition
-    expected_val=[[20.5/2.5,40/4],[40/2.5,75/4],[60/2.5,110/4]]
+    expected_val=[[5.5,8.1],[8.5,13.5],[11.5,20]]
     
     print "MCS's: \t Bandwidth: \t Troughput:\t\t  Delay:\t Lost packets:\tTransmited packets:"
     for count_mcs,a in enumerate(mcs):
@@ -171,7 +171,7 @@ def main(argv):
                 monitor.SetAttribute ("JitterBinWidth", ns.core.DoubleValue (0.001))
                 monitor.SetAttribute ("PacketSizeBinWidth", ns.core.DoubleValue (20))
                 
-                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime))
+                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime+1))
                 ns.core.Simulator.Run ()
                 ns.core.Simulator.Destroy ()
 

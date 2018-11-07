@@ -18,7 +18,7 @@ def main(argv):
     bandwidth = [20,40,80]
     mcs = [2,4,7]
     gi = [False, True]
-    expected_val=[[22/2.5,43/4,92/5],[41/2.5,85/4,180/5],[70/2.5,140/4,300/5]]
+    expected_val=[[5.5,9,16.4],[9,15.5,28.5],[12,23.5,48.2]]
     
     print "MCS's: \t Bandwidth: \t Troughput:\t\t  Delay:\t Lost packets:\tTransmited packets:"
     for count_mcs,a in enumerate(mcs):
@@ -121,7 +121,7 @@ def main(argv):
                 monitor.SetAttribute ("PacketSizeBinWidth", ns.core.DoubleValue (20))
                 
                 
-                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime))
+                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime+1))
                 ns.core.Simulator.Run ()
                 ns.core.Simulator.Destroy ()
 

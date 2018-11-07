@@ -19,7 +19,7 @@ def main(argv):
     udp = True #If false, TCP will be used by default
     bandwidth = 20
     ofdm =["OfdmRate9Mbps", "OfdmRate24Mbps", "OfdmRate48Mbps"]
-    expected_val = [9/2.5,20/4,35/5]
+    expected_val = [3.8,4.9,6.5]
     print "OFDM Rate: \t Troughput:\t\t  Delay:\t Lost packets:\tTransmited Packets:"
     for count, a in enumerate(ofdm):
       
