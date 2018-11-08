@@ -18,7 +18,7 @@ def main(argv):
     bandwidth = [20,40,80]
     mcs = [2,4,7]
     gi = [False, True]
-    expected_val=[[22,43,92],[41,85,180],[70,140,300]]
+    expected_val=[[21.3,43.1,100],[42,84.5,175],[69.5,138,280]]
     
     print "MCS's: \t Bandwidth: \t Troughput:\t\t  Delay:\t Lost packets:\tTransmited packets:"
     for count_mcs,a in enumerate(mcs):
@@ -94,8 +94,8 @@ def main(argv):
                 sinkApp = ns.network.ApplicationContainer ()
                 myServer=ns.applications.UdpServerHelper (9)
                 serverApp = myServer.Install (ns.network.NodeContainer (wifiStaNode.Get (0)))
-                serverApp.Start (ns.core.Seconds (0.0))
-                serverApp.Stop (ns.core.Seconds (simulationTime + 10))
+                serverApp.Start (ns.core.Seconds (1.0))
+                serverApp.Stop (ns.core.Seconds (simulationTime + 1))
 
                 temp = float((expected_val[count_mcs][count_bandwidth] *1000000)/(payloadSize*8))
                 inter =float(1/temp)
@@ -108,20 +108,20 @@ def main(argv):
 
                 clientApp = myClient.Install (ns.network.NodeContainer (wifiApNode.Get (0)))
                 clientApp.Start (ns.core.Seconds (0.0))
-                clientApp.Stop (ns.core.Seconds (simulationTime + 10))
+                clientApp.Stop (ns.core.Seconds (simulationTime + 1))
 
                 ns.internet.Ipv4GlobalRoutingHelper.PopulateRoutingTables ()
 
                 flowmonitor = ns.flow_monitor.FlowMonitorHelper ()
                 monitor = flowmonitor.InstallAll ()
                 
-                monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (10)))
+                monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (5)))
                 monitor.SetAttribute ("DelayBinWidth", ns.core.DoubleValue (0.001))
                 monitor.SetAttribute ("JitterBinWidth", ns.core.DoubleValue (0.001))
                 monitor.SetAttribute ("PacketSizeBinWidth", ns.core.DoubleValue (20))
                 
                 
-                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime + 10))
+                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime+1))
                 ns.core.Simulator.Run ()
                 ns.core.Simulator.Destroy ()
 

@@ -19,8 +19,8 @@ def main(argv):
     udp = True #If false, TCP will be used by default
     bandwidth = 20
     ofdm =["OfdmRate9Mbps", "OfdmRate24Mbps", "OfdmRate48Mbps"]
-    expected_val = [9,20,35]
-    expected_val2 = [11,24,48]
+    expected_val = [5,10,15.5]
+    
     print "OFDM Rate: \t Troughput:\t\t  Delay:\t Lost packets:\tTransmited Packets:"
     for count, a in enumerate(ofdm):
       
@@ -143,12 +143,12 @@ def main(argv):
         flowmonitor = ns.flow_monitor.FlowMonitorHelper ()
         monitor = flowmonitor.InstallAll ()
 
-        monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (1)))
+        monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (5)))
         monitor.SetAttribute ("DelayBinWidth", ns.core.DoubleValue (0.001))
         monitor.SetAttribute ("JitterBinWidth", ns.core.DoubleValue (0.001))
         monitor.SetAttribute ("PacketSizeBinWidth", ns.core.DoubleValue (20))
         
-        ns.core.Simulator.Stop (ns.core.Seconds (simulationTime + 1))
+        ns.core.Simulator.Stop (ns.core.Seconds (simulationTime+1))
         ns.core.Simulator.Run ()
         ns.core.Simulator.Destroy ()
 

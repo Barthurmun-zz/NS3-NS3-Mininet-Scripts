@@ -1,0 +1,19 @@
+MCS's: 	 Bandwidth: 	 Troughput:		  Delay:	 Lost packets:	Transmited packets:
+2 	20 MHz	False 	14.3278592 Mbit/s	+3229691246.0ns 		690 		  2802
+2 	20 MHz	True 	16.1602048 Mbit/s	+3911873311.0ns 		981 		  2802
+2 	40 MHz	False 	30.3137792 Mbit/s	+2184072384.0ns 		1422 		  4584
+2 	40 MHz	True 	33.5710208 Mbit/s	+1563840319.0ns 		558 		  4584
+2 	80 MHz	False 	65.7760256 Mbit/s	+1173927752.0ns 		2792 		  8559
+2 	80 MHz	True 	74.0910592 Mbit/s	+795072513.0ns 		1184 		  8559
+4 	20 MHz	False 	29.0113536 Mbit/s	+2129132395.0ns 		1611 		  4584
+4 	20 MHz	True 	32.6701568 Mbit/s	+1148014696.0ns 		370 		  4584
+4 	40 MHz	False 	61.2740608 Mbit/s	+758230111.0ns 		926 		  7894
+4 	40 MHz	True 	66.8264448 Mbit/s	+494051820.0ns 		574 		  7894
+4 	80 MHz	False 	126.4601088 Mbit/s	+509634921.0ns 		2428 		  14528
+4 	80 MHz	True 	137.7356288 Mbit/s	+180006518.0ns 		781 		  14528
+7 	20 MHz	False 	47.5785728 Mbit/s	+1141776875.0ns 		1610 		  6615
+7 	20 MHz	True 	54.3014912 Mbit/s	+842273667.0ns 		617 		  6615
+7 	40 MHz	False 	100.7012864 Mbit/s	+582939555.0ns 		2282 		  11976
+7 	40 MHz	True 	108.345088 Mbit/s	+461734224.0ns 		605 		  11976
+7 	80 MHz	False 	205.8539008 Mbit/s	+250835577.0ns 		3113 		  24590
+7 	80 MHz	True 	223.0244864 Mbit/s	+173941065.0ns 		605 		  24590

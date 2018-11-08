@@ -21,7 +21,7 @@ def main(argv):
     gi = [False, True]
     amsduVOBE=11406 #Maximum amound by standard definition
     amsduVIBK=11406 #Maximum amound by standard definition
-    expected_val=[[21,42,80],[40,80,140],[65,125,200]]
+    expected_val=[[21.8,41,78.5],[39.5,73,132],[61,108,180]]
     
     print "MCS's: \t Bandwidth: \t Troughput:\t\t  Delay:\t Lost packets:\tTransmited packets:"
     
@@ -164,11 +164,11 @@ def main(argv):
                 flowmonitor = ns.flow_monitor.FlowMonitorHelper ()
                 monitor = flowmonitor.InstallAll ()
 
-                monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (1)))
+                monitor.SetAttribute ("StartTime", ns.core.TimeValue (ns.core.Seconds (5)))
                 monitor.SetAttribute ("DelayBinWidth", ns.core.DoubleValue (0.001))
                 monitor.SetAttribute ("JitterBinWidth", ns.core.DoubleValue (0.001))
                 monitor.SetAttribute ("PacketSizeBinWidth", ns.core.DoubleValue (20))
-                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime + 1))
+                ns.core.Simulator.Stop (ns.core.Seconds (simulationTime+1))
                 ns.core.Simulator.Run ()
                 ns.core.Simulator.Destroy ()
 
