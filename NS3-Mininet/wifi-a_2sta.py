@@ -15,17 +15,16 @@ import argparse
 
 def Main():
     parser = argparse.ArgumentParser(description='802.11a mininet-ns3 scenario')
-    parser.add_argument('-b', '--BANDWIDTH', help='Set bandwidth', default=20, type = int)
     parser.add_argument('-or', '--OFDMRate', help='Setting OFDMRate', default=9, type = int)
-    parser.add_argument('-u', '--UDP', help='Turning off UDP protocol', action='store_false', default=True)
+    parser.add_argument('-tcp', '--UDP', help='Turning off UDP protocol', action='store_false', default=True)
     parser.add_argument('-t', '--TP', help='Setting client throughout', default=9, type = float)
     parser.add_argument('-p', '--PCAP', help='Enable Pcap collection', action='store_true', default=False)
     
     args = parser.parse_args()
 
-    Start(args.OFDMRate, args.BANDWIDTH, args.UDP, args.TP, args.PCAP)
+    Start(args.OFDMRate, args.UDP, args.TP, args.PCAP)
 
-def Start(OFDM_R=9, Bandwidth=20, UDP=True, TP=9, PCAP=False):
+def Start(OFDM_R=9, UDP=True, TP=9, PCAP=False):
     setLogLevel( 'info' )
     #info( '*** ns-3 network demo\n' )
     net = Mininet()
@@ -39,7 +38,7 @@ def Start(OFDM_R=9, Bandwidth=20, UDP=True, TP=9, PCAP=False):
 
     #CONFIGURATION
     udp = UDP
-    bandwidth = Bandwidth #20
+    bandwidth = 20 #20
     ofdm_r = "OfdmRate"+str(OFDM_R)+"Mbps"
     OfdmRate = ofdm_r #9,24,48
     if udp == False:
@@ -97,7 +96,7 @@ def Start(OFDM_R=9, Bandwidth=20, UDP=True, TP=9, PCAP=False):
     h1.sendCmd(val)
     h0.cmdPrint(val)
     
-    CLI(net)
+    #CLI(net)
    
     
 if __name__ == '__main__':

@@ -96,7 +96,7 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     val = "iperf -c 192.168.123.3 -u -b "+str(TP)+"M"
     h0.cmdPrint(val)
     
-    CLI(net)
+    #CLI(net)
 
 if __name__ == '__main__':
     Main()

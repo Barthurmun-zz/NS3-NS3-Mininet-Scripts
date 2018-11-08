@@ -94,7 +94,7 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     h0.cmdPrint(val)
     
 
-    CLI(net)
+    #CLI(net)
 
 
 if __name__ == '__main__':

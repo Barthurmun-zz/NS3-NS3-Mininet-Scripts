@@ -94,8 +94,8 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     
     #info( '\n *** Testing network connectivity\n' )
     net.pingFull([h0,h2])
-    net.pingFull([h1,h2])
-    net.pingFull([h0,h1])
+    #net.pingFull([h1,h2])
+    #net.pingFull([h0,h1])
     info('*** Starting UDP iperf server on AP(h2)\n')
     h2.sendCmd( "iperf -s -i 1 -u" )
     info( '*** Testing bandwidth between h0 and h2 while h1 is not transmitting\n' )
