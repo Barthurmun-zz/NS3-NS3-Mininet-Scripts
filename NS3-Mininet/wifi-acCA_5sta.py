@@ -115,8 +115,8 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     h1.sendCmd(val)
     h2.sendCmd(val)
     h3.sendCmd(val)
-    h4.sendCmd(val)
-    h0.cmdPrint(val)
+    h0.sendCmd(val)
+    h4.cmdPrint(val)
     
     #CLI(net)
 

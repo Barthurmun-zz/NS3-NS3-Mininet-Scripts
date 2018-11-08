@@ -35,7 +35,9 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     h0 = net.addHost( 'h0' )
     h1 = net.addHost( 'h1' )
     h2 = net.addHost( 'h2' )
-
+    h3 = net.addHost( 'h3' )
+    h4 = net.addHost( 'h4' )
+    h5 = net.addHost( 'h5' )
     wifi = WIFISegment()
 
     #CONFIGURATION
@@ -44,13 +46,6 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     bandwidth = Bandwidth #20,40
     mcs = MCS #2,4,7
  
-    info( '*** Creating Network\n' )
-    h0 = net.addHost( 'h0' )
-    h1 = net.addHost( 'h1' )
-    h2 = net.addHost( 'h2' )
-    h3 = net.addHost( 'h3' )
-    h4 = net.addHost( 'h4' )
-    h5 = net.addHost( 'h5' )
 
     if udp == False:
         #TCP
@@ -117,8 +112,8 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     h1.sendCmd(val)
     h2.sendCmd(val)
     h3.sendCmd(val)
-    h4.sendCmd(val)
-    h0.cmdPrint(val)
+    h0.sendCmd(val)
+    h4.cmdPrint(val)
     
     #CLI(net)
 

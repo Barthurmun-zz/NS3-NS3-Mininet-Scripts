@@ -52,7 +52,7 @@ def Start(OFDM_R=9, UDP=True, TP=9, PCAP=False):
     h0 = net.addHost( 'h0' )
     h1 = net.addHost( 'h1' )
     h2 = net.addHost( 'h2' )
-
+    
     wifi = WIFISegment()
 
     wifi.wifihelper.SetStandard(ns.wifi.WIFI_PHY_STANDARD_80211a)
@@ -65,7 +65,7 @@ def Start(OFDM_R=9, UDP=True, TP=9, PCAP=False):
     wifi.addSta( h0, ssid=Sssid )
     wifi.addSta( h1, ssid=Sssid )
     wifi.addAp( h2, ssid=Sssid  )
-
+    
     # set channel bandwidth
     ns.core.Config.Set ("/NodeList/*/DeviceList/*/$ns3::WifiNetDevice/Phy/ChannelWidth", ns.core.UintegerValue (bandwidth))
     
@@ -78,14 +78,14 @@ def Start(OFDM_R=9, UDP=True, TP=9, PCAP=False):
     h0.setIP('192.168.123.1/24')
     h1.setIP('192.168.123.2/24')
     h2.setIP('192.168.123.3/24')
-
+    
     mininet.ns3.start()
 
 
     #info( '\n *** Testing network connectivity\n' )
     net.pingFull([h0,h2])
-    net.pingFull([h1,h2])
-    net.pingFull([h0,h1])
+    #net.pingFull([h1,h2])
+    #net.pingFull([h0,h1])
     info('*** Starting UDP iperf server on AP(h2)\n')
     h2.sendCmd( "iperf -s -i 1 -u" )
     info( '*** Testing bandwidth between h0 and h2 while h1 is not transmitting\n' )

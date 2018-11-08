@@ -47,14 +47,6 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     bandwidth = Bandwidth #20,40,80
     mcs = MCS #2,4,7
  
-    info( '*** Creating Network\n' )
-    h0 = net.addHost( 'h0' )
-    h1 = net.addHost( 'h1' )
-    h2 = net.addHost( 'h2' )
-    h3 = net.addHost( 'h3' )
-    h4 = net.addHost( 'h4' )
-    h5 = net.addHost( 'h5' )
-
     if udp == False:
         #TCP
         payloadSize = 1448  #bytes
@@ -117,11 +109,11 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     h0.cmdPrint(val)
     info( '*** Testing bandwidth between h0 and h5 while everyone transmitting\n' )
     val = "iperf -c 192.168.123.6 -u -b "+str(TP)+"M"
+    h0.sendCmd(val)
     h1.sendCmd(val)
     h2.sendCmd(val)
     h3.sendCmd(val)
-    h4.sendCmd(val)
-    h0.cmdPrint(val)
+    h4.cmdPrint(val)
     #CLI(net)
 
 

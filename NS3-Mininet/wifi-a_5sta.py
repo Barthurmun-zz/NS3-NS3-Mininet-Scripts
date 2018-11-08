@@ -33,9 +33,12 @@ def Start(OFDM_R=9, UDP=True, TP=9, PCAP=False):
     h0 = net.addHost( 'h0' )
     h1 = net.addHost( 'h1' )
     h2 = net.addHost( 'h2' )
-
+    h3 = net.addHost( 'h3' )
+    h4 = net.addHost( 'h4' )
+    h5 = net.addHost( 'h5' )
+    
     wifi = WIFISegment()
-
+  
     #CONFIGURATION
     udp = UDP
     bandwidth = 20 
@@ -48,14 +51,6 @@ def Start(OFDM_R=9, UDP=True, TP=9, PCAP=False):
     else:
         payloadSize = 1472
 
-    info( '*** Creating Network\n' )
-    h0 = net.addHost( 'h0' )
-    h1 = net.addHost( 'h1' )
-    h2 = net.addHost( 'h2' )
-    h3 = net.addHost( 'h3' )
-    h4 = net.addHost( 'h4' )
-    h5 = net.addHost( 'h5' )
-    
     wifi = WIFISegment()
 
     wifi.wifihelper.SetStandard(ns.wifi.WIFI_PHY_STANDARD_80211a)
@@ -98,18 +93,18 @@ def Start(OFDM_R=9, UDP=True, TP=9, PCAP=False):
     net.pingFull([h0,h5])
     #net.pingFull([h1,h2])
     #net.pingFull([h0,h1])
-    info('*** Starting UDP iperf server on AP(h2)\n')
+    info('*** Starting UDP iperf server on AP(h5)\n')
     h5.sendCmd( "iperf -s -i 1 -u" )
     info( '*** Testing bandwidth between h0 and h5 while others stas are not transmitting\n' )
     val = "iperf -c 192.168.123.6 -u -b "+str(TP)+"M"
     h0.cmdPrint(val)
-    info( '*** Testing bandwidth between h0 and h2 while all stats are also transmitting\n' )
+    info( '*** Testing bandwidth between h0 and h5 while all stats are also transmitting\n' )
     val = "iperf -c 192.168.123.6 -u -b "+str(TP)+"M"
+    h0.sendCmd(val)
     h1.sendCmd(val)
     h2.sendCmd(val)
     h3.sendCmd(val)
-    h4.sendCmd(val)
-    h0.cmdPrint(val)
+    h4.cmdPrint(val)
     
     #CLI(net)
    

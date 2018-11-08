@@ -38,8 +38,7 @@ def Start(OFDM_R=9, UDP=True, TP=20, PCAP=False):
 
     #CONFIGURATION
     udp = UDP
-    gi = GI #0,1
-    bandwidth = Bandwidth #20
+    bandwidth = 20 #20
     ofdm_r = "OfdmRate"+str(OFDM_R)+"Mbps"
     OfdmRate = ofdm_r #9,24,48
     if udp == False:
