@@ -1,4 +1,6 @@
 #!/bin/bash
+#Author: Jakub Bryl
+
 
 echo "Starting 802.11a"
 python 80211a.py > wyniki_80211a.txt
