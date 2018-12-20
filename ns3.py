@@ -1,6 +1,7 @@
 """
 From https://github.com/piotrjurkiewicz/mininet.git
 Credit: Piotr Jurkiewicz
+Edited by: Jakub Bryl ( added support for frame aggregation inside class WIFISegment)
 """
 """
 
