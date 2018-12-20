@@ -1,3 +1,6 @@
+#Author: Jakub Bryl
+#Based on NS3 examples, official documentation 
+#Written in python thanks to examples provided by: https://github.com/mohittahiliani/ns-3-python-examples
 
 import ns.core
 import ns.network
