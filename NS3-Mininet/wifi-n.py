@@ -1,3 +1,5 @@
+#Author: Jakub Bryl
+
 from mininet.net import Mininet
 from mininet.node import Node, Switch
 from mininet.link import Link, Intf
