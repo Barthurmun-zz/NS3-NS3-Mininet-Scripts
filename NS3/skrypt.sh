@@ -1,3 +1,4 @@
+#Author: Jakub Bryl
 #!/bin/bash
 
 echo "Starting 802.11a"
