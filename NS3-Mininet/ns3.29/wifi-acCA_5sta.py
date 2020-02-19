@@ -60,15 +60,14 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     # Enabling Shor guard intervals:
     wifi.phyhelper.Set("ShortGuardEnabled", ns.core.BooleanValue(gi))
     
-    DataRate = ns.wifi.VhtWifiMacHelper.DataRateForMcs(mcs)
-    #DataRate = ns.core.StringValue("VhtMcs3")
+    DataRate = "VhtMcs"+str(mcs)
 
     # set datarate for node h0
     wifi.wifihelper.SetRemoteStationManager( "ns3::ConstantRateWifiManager",
-                                             "DataMode", DataRate, "ControlMode", ns.wifi.VhtWifiMacHelper.DataRateForMcs(0) )
+                                             "DataMode", ns.core.StringValue (DataRate), "ControlMode", ns.core.StringValue ("VhtMcs0") )
     
-    wifi.machelper = ns.wifi.VhtWifiMacHelper.Default()
-    
+    wifi.machelper = ns.wifi.WifiMacHelper()
+
     #wifi.wifihelper.SetRemoteStationManager( "ns3::ConstantRateWifiManager",
     #                                         "DataMode", ns.core.StringValue ("VhtMcs8"), "ControlMode", ns.core.StringValue ("VhtMcs8") )
     

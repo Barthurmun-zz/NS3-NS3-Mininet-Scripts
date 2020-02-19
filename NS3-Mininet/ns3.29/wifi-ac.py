@@ -34,11 +34,8 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
 
     #info( '*** Creating Network\n' )
     h0 = net.addHost( 'h0' )
-    h1 = net.addHost( 'h1' )
+    #h1 = net.addHost( 'h1' )
     h2 = net.addHost( 'h2' )
-    h3 = net.addHost( 'h3' )
-    h4 = net.addHost( 'h4' )
-    h5 = net.addHost( 'h5' )
 
     wifi = WIFISegment()
 
@@ -60,63 +57,44 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     # Enabling Shor guard intervals:
     wifi.phyhelper.Set("ShortGuardEnabled",ns.core.BooleanValue(gi))
     
-    DataRate = ns.wifi.VhtWifiMacHelper.DataRateForMcs(mcs)
-    #DataRate = ns.core.StringValue("VhtMcs3")
+    DataRate = "VhtMcs"+str(mcs)
 
     # set datarate for node h0
     wifi.wifihelper.SetRemoteStationManager( "ns3::ConstantRateWifiManager",
-                                             "DataMode", DataRate, "ControlMode", DataRate )
+                                             "DataMode", ns.core.StringValue (DataRate), "ControlMode", ns.core.StringValue (DataRate) )
     
-    wifi.machelper = ns.wifi.VhtWifiMacHelper.Default()
+    wifi.machelper = ns.wifi.WifiMacHelper()
    
     Sssid = "wifi-80211ac"
 
     wifi.addSta( h0, ssid=Sssid)
-    wifi.addSta( h1, ssid=Sssid)
-    wifi.addSta( h2, ssid=Sssid)
-    wifi.addSta( h3, ssid=Sssid)
-    wifi.addSta( h4, ssid=Sssid)
-    wifi.addAp( h5, ssid=Sssid)
+
+    wifi.addAp( h2, ssid=Sssid)
 
     # set channel bandwidth
     ns.core.Config.Set ("/NodeList/*/DeviceList/*/$ns3::WifiNetDevice/Phy/ChannelWidth", ns.core.UintegerValue (bandwidth))
 
     if PCAP == True:
         wifi.phyhelper.EnablePcap( "80211ac_Sta1.pcap", h0.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211ac_Sta2.pcap", h1.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211ac_Sta3.pcap", h2.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211ac_Sta4.pcap", h3.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211ac_Sta5.pcap", h4.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211ac_Ap.pcap", h5.nsNode.GetDevice( 0 ), True, True );
+        #wifi.phyhelper.EnablePcap( "Ap-h1.pcap", h1.nsNode.GetDevice( 1 ), True, True );
+        wifi.phyhelper.EnablePcap( "80211ac_Ap.pcap", h2.nsNode.GetDevice( 0 ), True, True );
    
     #info( '*** Configuring hosts\n' )
     h0.setIP('192.168.123.1/24')
-    h1.setIP('192.168.123.2/24')
+    #h1.setIP('192.168.123.2/24')
     h2.setIP('192.168.123.3/24')
-    h3.setIP('192.168.123.4/24')
-    h4.setIP('192.168.123.5/24')
-    h5.setIP('192.168.123.6/24')
 
     mininet.ns3.start()
 
-    
     #info( '\n *** Testing network connectivity\n' )
-    net.pingFull([h0,h5])
-    #net.pingFull([h1,h2])
-    #net.pingFull([h0,h1])
-    info('*** Starting UDP iperf server on AP(h5)\n')
-    h5.sendCmd( "iperf -s -i 1 -u" )
-    info( '*** Testing bandwidth between h0 and h5 none is transmitting\n' )
-    val = "iperf -c 192.168.123.6 -u -b "+str(TP)+"M"
+    net.pingFull([h0,h2])
+    h0.cmdPrint("ping 192.168.123.3 -c 10")
+    info( '*** Testing bandwidth between h0 and h2 while h1 is not transmitting\n' )
+    h2.sendCmd( "iperf -s -i 1 -u" )
+    val = "iperf -c 192.168.123.3 -u -b "+str(TP)+"M"
     h0.cmdPrint(val)
-    info( '*** Testing bandwidth between h0 and h5 while everyone transmitting\n' )
-    val = "iperf -c 192.168.123.6 -u -b "+str(TP)+"M"
-    h1.sendCmd(val)
-    h2.sendCmd(val)
-    h3.sendCmd(val)
-    h0.sendCmd(val)
-    h4.cmdPrint(val)
     
+
     #CLI(net)
 
 

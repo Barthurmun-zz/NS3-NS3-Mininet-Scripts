@@ -61,14 +61,14 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     # Enabling Shor guard intervals:
     wifi.phyhelper.Set("ShortGuardEnabled", ns.core.BooleanValue(gi))
     
-    wifi.machelper = ns.wifi.HtWifiMacHelper.Default ()
+    wifi.machelper = ns.wifi.WifiMacHelper ()
     
-    DataRate = ns.wifi.HtWifiMacHelper.DataRateForMcs (mcs)
-    #DataRate = ns.core.StringValue ("HtMcs14")
-    
+    DataRate = "HtMcs"+str(mcs)
+
     # set datarate for node h0
     wifi.wifihelper.SetRemoteStationManager( "ns3::ConstantRateWifiManager",
-                                             "DataMode", DataRate, "ControlMode", ns.wifi.HtWifiMacHelper.DataRateForMcs (0) )
+                                             "DataMode", ns.core.StringValue (DataRate), "ControlMode", ns.core.StringValue ("HtMcs0") )
+    
       
     Sssid = "wifi-80211n"
     wifi.addSta( h0, ssid=Sssid )

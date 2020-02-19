@@ -11,12 +11,11 @@ from mininet.ns3 import WIFISegment
 
 import ns.core
 import ns.wifi
-
 import sys
 import argparse
 
 def Main():
-    parser = argparse.ArgumentParser(description='802.11nCA mininet-ns3 scenario')
+    parser = argparse.ArgumentParser(description='802.11ac mininet-ns3 scenario')
     parser.add_argument('-g', '--GI', help='Setting Guard Interval', action='store_true', default=False)
     parser.add_argument('-b', '--BANDWIDTH', help='Set bandwidth', default=20, type = int)
     parser.add_argument('-m', '--MCS', help='Setting MCS', default=2, type = int)
@@ -40,15 +39,15 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     h3 = net.addHost( 'h3' )
     h4 = net.addHost( 'h4' )
     h5 = net.addHost( 'h5' )
+
     wifi = WIFISegment()
 
     #CONFIGURATION
     udp = UDP
     gi = GI #0,1
-    bandwidth = Bandwidth #20,40
+    bandwidth = Bandwidth #20,40,80
     mcs = MCS #2,4,7
- 
-
+    
     if udp == False:
         #TCP
         payloadSize = 1448  #bytes
@@ -56,38 +55,38 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     else:
         payloadSize = 1472
 
-    wifi.wifihelper.SetStandard(ns.wifi.WIFI_PHY_STANDARD_80211n_5GHZ)
+    wifi.wifihelper.SetStandard(ns.wifi.WIFI_PHY_STANDARD_80211ac)
 
     # Enabling Shor guard intervals:
-    wifi.phyhelper.Set("ShortGuardEnabled", ns.core.BooleanValue(gi))
+    wifi.phyhelper.Set("ShortGuardEnabled",ns.core.BooleanValue(gi))
     
-    wifi.machelper = ns.wifi.HtWifiMacHelper.Default ()
-    
-    DataRate = ns.wifi.HtWifiMacHelper.DataRateForMcs (mcs)
-    #DataRate = ns.core.StringValue ("HtMcs14")
-    
+    DataRate = "VhtMcs"+str(mcs)
+
     # set datarate for node h0
     wifi.wifihelper.SetRemoteStationManager( "ns3::ConstantRateWifiManager",
-                                             "DataMode", DataRate, "ControlMode", ns.wifi.HtWifiMacHelper.DataRateForMcs (0) )
-        
-    Sssid = "wifi-80211nCA"
-    wifi.addSta( h0, ext="n", ca=True, ssid=Sssid )
-    wifi.addSta( h1, ext="n", ca=True, ssid=Sssid )
-    wifi.addSta( h2, ext="n", ca=True, ssid=Sssid )
-    wifi.addSta( h3, ext="n", ca=True, ssid=Sssid )
-    wifi.addSta( h4, ext="n", ca=True, ssid=Sssid )
-    wifi.addAp( h5, ext="n", ca=True, ssid=Sssid  )
+                                             "DataMode", ns.core.StringValue (DataRate), "ControlMode", ns.core.StringValue (DataRate) )
+    
+    wifi.machelper = ns.wifi.WifiMacHelper()
+   
+    Sssid = "wifi-80211ac"
+
+    wifi.addSta( h0, ssid=Sssid)
+    wifi.addSta( h1, ssid=Sssid)
+    wifi.addSta( h2, ssid=Sssid)
+    wifi.addSta( h3, ssid=Sssid)
+    wifi.addSta( h4, ssid=Sssid)
+    wifi.addAp( h5, ssid=Sssid)
 
     # set channel bandwidth
     ns.core.Config.Set ("/NodeList/*/DeviceList/*/$ns3::WifiNetDevice/Phy/ChannelWidth", ns.core.UintegerValue (bandwidth))
-    
+
     if PCAP == True:
-        wifi.phyhelper.EnablePcap( "80211acCA_Sta1.pcap", h0.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211acCA_Sta2.pcap", h1.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211acCA_Sta3.pcap", h2.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211acCA_Sta4.pcap", h3.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211acCA_Sta5.pcap", h4.nsNode.GetDevice( 0 ), True, True );
-        wifi.phyhelper.EnablePcap( "80211acCA_Ap.pcap", h5.nsNode.GetDevice( 0 ), True, True );
+        wifi.phyhelper.EnablePcap( "80211ac_Sta1.pcap", h0.nsNode.GetDevice( 0 ), True, True );
+        wifi.phyhelper.EnablePcap( "80211ac_Sta2.pcap", h1.nsNode.GetDevice( 0 ), True, True );
+        wifi.phyhelper.EnablePcap( "80211ac_Sta3.pcap", h2.nsNode.GetDevice( 0 ), True, True );
+        wifi.phyhelper.EnablePcap( "80211ac_Sta4.pcap", h3.nsNode.GetDevice( 0 ), True, True );
+        wifi.phyhelper.EnablePcap( "80211ac_Sta5.pcap", h4.nsNode.GetDevice( 0 ), True, True );
+        wifi.phyhelper.EnablePcap( "80211ac_Ap.pcap", h5.nsNode.GetDevice( 0 ), True, True );
    
     #info( '*** Configuring hosts\n' )
     h0.setIP('192.168.123.1/24')
@@ -119,7 +118,7 @@ def Start(GI=False, MCS=2, Bandwidth=20, UDP=True, TP=20, PCAP=False):
     
     #CLI(net)
 
+
 if __name__ == '__main__':
     Main()
-    
 
