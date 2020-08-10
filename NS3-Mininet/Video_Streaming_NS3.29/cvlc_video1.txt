@@ -1,3 +1,0 @@
-!#/bin/bash
-
-$(echo Y3ZsYyBmaWxlOi8vL2hvbWUvb3Nib3hlcy9Eb3dubG9hZHMvZmlsZV9leGFtcGxlX01QNF8xOTIwXzE4TUcubXA0IC0tc291dD0jcnRwe2RzdD0xOTIuMTY4LjEyMy4xLHBvcnQ9NTAwNCxtdXg9dHMsc2FwLG5hbWU9VmlkZW8xfSAtLW5vLXNvdXQtYWxsIC0tc291dC1rZWVwCg== | base64 -d) &
